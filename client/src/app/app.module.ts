@@ -24,7 +24,7 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
-import { DateInputComponent } from './_forms/date-input/date-input.component';
+// import { DateInputComponent } from './_forms/date-input/date-input.component';
 // import { TextInputComponent } from './_forms/text-input/text-input.component';
 
 @NgModule({
@@ -43,7 +43,7 @@ import { DateInputComponent } from './_forms/date-input/date-input.component';
     MemberCardComponent,
     MemberEditComponent,
     PhotoEditorComponent,
-    DateInputComponent,
+    // DateInputComponent,
     // TextInputComponent
   ],
   imports: [

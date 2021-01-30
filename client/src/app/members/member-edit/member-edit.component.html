@@ -22,14 +22,14 @@
                 </div>
                 <div>
                     <strong>Last Active:</strong>
-                    <p>{{member.lastActive}}</p>
+                    <p *ngIf="member.lastActive!==undefined">{{member?.lastActive | timeago}}</p>
                 </div>
                 <div> 
                     <strong>Member sice:</strong>
-                    <p>{{member.created}}</p>
+                    <p>{{member.created | date:'MM/dd/yyyy'}}</p>
                 </div>
             </div>
-            <div class="car-footer">
+            <div class="card-footer">
                 <button [disabled]="!editForm.dirty" form="editForm" class="btn btn-primary btn-block">Save Changes</button>
             </div>
         </div>

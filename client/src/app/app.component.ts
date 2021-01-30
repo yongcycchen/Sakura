@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { OnInit } from '@angular/core';
 import { User } from './_models/user';
-import { ProviderAstType } from '@angular/compiler';
 import { AccountService } from './_services/account.service';
 
 @Component({

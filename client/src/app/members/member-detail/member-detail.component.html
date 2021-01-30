@@ -14,14 +14,14 @@
                 </div>
                 <div>
                     <strong>Last Active:</strong>
-                    <p>{{member.lastActive}}</p>
+                    <p *ngIf="member.lastActive!==undefined">{{member?.lastActive | timeago}}</p>
                 </div>
                 <div> 
                     <strong>Member sice:</strong>
-                    <p>{{member.created}}</p>
+                    <p>{{member.created | date:'MM/dd/yyyy'}}</p>
                 </div>
             </div>
-            <div class="car-footer">
+            <div class="card-footer">
                 <div class="btn-group d-flex">
                     <button class="btn btn-primary">Like</button>
                     <button class="btn btn-success">Message</button>
