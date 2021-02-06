@@ -9,7 +9,8 @@ import { MembersService } from '../_services/members.service';
   styleUrls: ['./lists.component.css']
 })
 export class ListsComponent implements OnInit {
-  members: Partial<Member[]>={}as Partial<Member[]>;
+  members: Partial<Member[]>=[]as Partial<Member[]>;
+  // members: Member[]=[];
   predicate = 'liked';
   pageNumber = 1;
   pageSie = 5;

@@ -11,9 +11,9 @@
                 (click)="loadLikes()">Members who like me</button>
         </div>
     </div>
-    <div class="row mt-3" *ngIf="members?.length>0">
+    <div class="row mt-3" *ngIf="members.length>0">
         <div class="col-2" *ngFor="let member of members">
-            <app-member-card [member]="member"></app-member-card>
+            <app-member-card *ngIf="member!=undefined" [member]="member"></app-member-card>
         </div>
     </div>
 </div>
