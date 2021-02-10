@@ -54,13 +54,6 @@ export class MembersService {
         this.memberCache.set(Object.values(userParams).join('-'),response);
         return response;
       }));
-    // if (this.members.length>0) return of(this.members);
-    // return this.http.get<Member[]>(this.baseUrl + 'users').pipe(
-    //   map(members=> {
-    //     this.members=members;
-    //     return members;
-    //   }
-    //     ));
   }
   getMember(username:string){
     const member = [...this.memberCache.values()]

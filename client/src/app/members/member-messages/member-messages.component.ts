@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Message } from 'src/app/_models/message';
+import { ConfirmService } from 'src/app/_services/confirm.service';
 import { MembersService } from 'src/app/_services/members.service';
 import { MessageService } from 'src/app/_services/message.service';
 
@@ -15,16 +16,19 @@ export class MemberMessagesComponent implements OnInit {
   @Input()username: string={}as string;
   messageContent:string={}as string;
 
-  constructor(public messageService:MessageService) { }
+  constructor(public messageService:MessageService,private confirmService:ConfirmService) { }
 
   ngOnInit(): void {
   }
 
   sendMessage(){
-    console.log(this.messageContent);
-    this.messageService.sendMessage(this.username,this.messageContent).then(()=>{
-      this.messageForm.reset();
-    })
+    this.confirmService.confirm('Confirm send message','This cannot be undone').then(result=>{
+      if (result){
+        this.messageService.sendMessage(this.username,this.messageContent).then(()=>{
+          this.messageForm.reset();
+        })
+      }
+    });
     // .subscribe(message=>{
     //   this.messages.push(message);
     //   this.messageForm.reset();

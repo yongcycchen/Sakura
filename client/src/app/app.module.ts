@@ -31,6 +31,7 @@ import { UserManagementComponent } from './admin/user-management/user-management
 import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { NotnullPipe } from './_pipe/notnull.pipe';
+import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
 // import { DateInputComponent } from './_forms/date-input/date-input.component';
 // import { TextInputComponent } from './_forms/text-input/text-input.component';
 
@@ -57,6 +58,7 @@ import { NotnullPipe } from './_pipe/notnull.pipe';
     PhotoManagementComponent,
     RolesModalComponent,
     NotnullPipe,
+    ConfirmModalComponent,
     // DateInputComponent,
     // TextInputComponent
   ],

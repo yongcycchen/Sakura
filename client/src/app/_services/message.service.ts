@@ -38,11 +38,9 @@ export class MessageService {
       this.messageThread$.pipe(take(1)).subscribe(messages =>{
         this.messageThreadSource.next([...messages,message])
       })
-      // this.toastr.info(user.username +" send me a message");
     });
 
     this.hubConnection.on('UpdatedGroup',(group:Group)=>{
-      console.log("yes");
       if (group.connections.some(x=>x.username === otherUsername)){
         this.messageThread$.pipe(take(1)).subscribe(messages =>{
           messages.forEach(message =>{
