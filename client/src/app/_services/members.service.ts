@@ -1,10 +1,9 @@
-import { HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/member';
-import { PaginatedResult } from '../_models/pagination';
 import { User } from '../_models/user';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
@@ -83,6 +82,10 @@ export class MembersService {
   {
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
+  
+  getLike(username:string){
+    return this.http.get<boolean>(this.baseUrl + 'likes/' + username);
+  }
 
   getLikes(predicate:string, pageNumber:number, pageSize:number){
     let params = getPaginationHeaders(pageNumber,pageSize);
@@ -92,6 +95,10 @@ export class MembersService {
 
   addLike(username:string){
     return this.http.post(this.baseUrl+'likes/'+username,{});
+  }
+
+  deleteLike(username:string){
+    return this.http.delete(this.baseUrl+'likes/'+username,{});
   }
   
 }

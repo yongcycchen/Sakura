@@ -32,7 +32,7 @@ namespace API.Data
             foreach(var user in users)
             {
                 user.UserName = user.UserName.ToLower();
-                await userManager.CreateAsync(user,"Sm013579@");
+                await userManager.CreateAsync(user,"password");
                 await userManager.AddToRoleAsync(user,"Member");
             }
 
@@ -41,7 +41,7 @@ namespace API.Data
                 UserName = "admin"
             };
 
-            await userManager.CreateAsync(admin,"Sm013579@");
+            await userManager.CreateAsync(admin,"admin");
             await userManager.AddToRolesAsync(admin,new[]{"Admin","Moderator"});
         }
     }

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { observable, Observable } from 'rxjs';
 import { ConfirmModalComponent } from '../modals/confirm-modal/confirm-modal.component';
 
 @Injectable({
@@ -28,13 +27,5 @@ export class ConfirmService {
           resolve(this.bsModalRef.content?.result);
         })
       });
-      // return this.getResult();
     }
-
-  private getResult():Observable<boolean>{
-    return new Observable<boolean>(subscriber=>{
-      subscriber.next(this.bsModalRef.content?.result);
-      subscriber.complete();
-    })
-  }
 }

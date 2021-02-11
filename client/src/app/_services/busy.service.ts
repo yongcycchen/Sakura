@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Injectable({
   providedIn: 'root'
