@@ -33,10 +33,11 @@ namespace API.Controllers
             // var users = await _unitOfWork.UserRepository.GetUsersAsync();
             // var usersToReturn = _mapper.Map<IEnumerable<MemberDto>>(users);
             // return Ok(usersToReturn);
-            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
-            userParams.CurrentUsername = user.UserName;
+            var gender = await _unitOfWork.UserRepository.GetUserGender(User.GetUsername());
+            // var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+            userParams.CurrentUsername = User.GetUsername();
             if (string.IsNullOrEmpty(userParams.Gender))
-                userParams.Gender = user.Gender == "male" ? "female" : "male";
+                userParams.Gender = gender == "male" ? "female" : "male";
             var users = await _unitOfWork.UserRepository.GetMemberDtosAsync(userParams);
 
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize,

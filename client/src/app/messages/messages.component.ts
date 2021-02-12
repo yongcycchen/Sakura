@@ -17,7 +17,11 @@ export class MessagesComponent implements OnInit {
   pageSize = 5;
   loading = false;
 
+<<<<<<< HEAD
   constructor(public messageService:MessageService, private confirmService: ConfirmService) { }
+=======
+  constructor(public messageService:MessageService, private confirmService:ConfirmService) { }
+>>>>>>> master
 
   ngOnInit(): void {
     this.loadMessages();
@@ -33,9 +37,19 @@ export class MessagesComponent implements OnInit {
   }
 
   deleteMessage(id:number){
+<<<<<<< HEAD
         this.messageService.deleteMessage(id).subscribe(()=>{
           this.messages.splice(this.messages.findIndex(m =>m.id ===id),1);
         })
+=======
+    this.confirmService.confirm('Confirm delete message','This cannot be undone').subscribe(result=>{
+      if (result){
+        this.messageService.deleteMessage(id).subscribe(()=>{
+          this.messages.splice(this.messages.findIndex(m =>m.id ===id),1);
+        })
+      }
+    })
+>>>>>>> master
   }
 
   pageChanged(event:any){
