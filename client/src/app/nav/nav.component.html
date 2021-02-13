@@ -16,7 +16,7 @@
               <a class="nav-link" routerLink='/admin' routerLinkActive='active'>Admin</a>
             </li>
           </ng-container>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isDevMode">
             <a class="nav-link" routerLink='/errors' routerLinkActive='active'>Errors</a>
           </li>
         </ul>
