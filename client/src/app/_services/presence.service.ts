@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { UserManagementComponent } from '../admin/user-management/user-management.component';
+import { Message } from '../_models/message';
 import { User } from '../_models/user';
 
 @Injectable({
@@ -30,19 +31,18 @@ export class PresenceService {
     this.hubConnection
       .start()
       .catch(error=> console.log(error));
-    
     this.hubConnection.on('UserIsOnline',username => {
       this.onlineUsers$.pipe(take(1)).subscribe(usernames =>{
         this.onlineUsersSrouce.next([...usernames,username])
       })
-      this.toastr.info(username + 'has connected');
+      this.toastr.info(username + ' has connected');
     })
 
     this.hubConnection.on('UserIsOffline',username =>{
       this.onlineUsers$.pipe(take(1)).subscribe(usernames=>{
         this.onlineUsersSrouce.next([...usernames.filter(x=>x!==username)]);
       })
-      this.toastr.warning(username + 'has disconnected');
+      this.toastr.warning(username + ' has disconnected');
     })
 
     this.hubConnection.on('GetOnlineUsers',(usernames:string[])=>{
@@ -54,6 +54,13 @@ export class PresenceService {
         .onTap
         .pipe(take(1))
         .subscribe(()=>this.router.navigateByUrl('/members/'+username+'?tab=3'));
+    })
+
+    this.hubConnection.on('UnreadMessages',(messages:Message[])=>{
+      this.toastr.info('You got '+messages.length+' unread messages')
+        .onTap
+        .pipe(take(1))
+        .subscribe(()=>this.router.navigateByUrl('/messages'))
     })
   }
 
