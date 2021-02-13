@@ -22,7 +22,7 @@ export class AccountService {
       map((user:any)=>{
         if (user)
         {
-          this.serCurrentUser(user);
+          this.setCurrentUser(user);
           this.presence.createHubConnection(user);
         }
       })
@@ -33,7 +33,7 @@ export class AccountService {
     return this.http.post(this.baseUrl + 'account/register', model).pipe(
       map((user:any)=>{
         if (user){
-          this.serCurrentUser(user);
+          this.setCurrentUser(user);
           this.presence.createHubConnection(user);
         }
         return user;
@@ -41,13 +41,17 @@ export class AccountService {
     )
   }
 
-  serCurrentUser(user:User){
+  setCurrentUser(user:User){
     user.roles = [];
     let roles : string | string[]= this.getDecodedToken(user.token);
     Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
     localStorage.setItem('user',JSON.stringify(user));
     this.currentUserSource.next(user);
   }
+
+  isguest(){
+  }
+
   logout(){
     localStorage.removeItem('user');
     this.currentUserSource.next(undefined);
