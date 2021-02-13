@@ -14,6 +14,7 @@ export class MemberMessagesComponent implements OnInit {
   @Input()messages: Message[]=[];
   @Input()username: string={}as string;
   messageContent:string="";
+  loading:boolean = false;
 
   constructor(public messageService:MessageService,private confirmService:ConfirmService) { }
 
@@ -21,13 +22,15 @@ export class MemberMessagesComponent implements OnInit {
   }
 
   sendMessage(){
-    this.confirmService.confirm('Confirm send message','This cannot be undone').then(result=>{
-      if (result){
-        this.messageService.sendMessage(this.username,this.messageContent).then(()=>{
-          this.messageForm.reset();
-        })
-      }
-    });
+    this.loading = true;
+    this.messageService.sendMessage(this.username,this.messageContent).then(()=>{
+      this.messageForm.reset();
+    }).finally(()=>this.loading = false);
+    // this.confirmService.confirm('Confirm send message','This cannot be undone').then(result=>{
+    //   if (result){
+        
+    //   }
+    // });
     // .subscribe(message=>{
     //   this.messages.push(message);
     //   this.messageForm.reset();

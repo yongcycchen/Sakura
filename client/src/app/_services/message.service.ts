@@ -10,6 +10,7 @@ import { User } from '../_models/user';
 import { Group } from '../_models/group';
 import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 import { ToastrService } from 'ngx-toastr';
+import { BusyService } from './busy.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,16 +21,17 @@ export class MessageService {
   private hubConnection: HubConnection={}as HubConnection;
   private messageThreadSource = new BehaviorSubject<Message[]>([]as Message[]);
   messageThread$ = this.messageThreadSource.asObservable();
-  constructor(private http:HttpClient,private toastr:ToastrService) { }
+  constructor(private http:HttpClient,private toastr:ToastrService,private busyService: BusyService) { }
 
   createHubConnection(user:User,otherUsername:string){
+    this.busyService.busy();
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.hubUrl + 'message?user=' + otherUsername, {
         accessTokenFactory:()=>user.token
       })
       .withAutomaticReconnect()
       .build();
-    this.hubConnection.start().catch(error => console.log(error));
+    this.hubConnection.start().catch(error => console.log(error)).finally(()=>this.busyService.idle());
 
     this.hubConnection.on('ReceiveMessageThread',messages=>{
       this.messageThreadSource.next(messages);
@@ -56,6 +58,7 @@ export class MessageService {
 
   stopHubConnection(){
     if (this.hubConnection){
+      this.messageThreadSource.next([]);
       this.hubConnection.stop();
     }
   }
