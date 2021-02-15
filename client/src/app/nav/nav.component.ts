@@ -2,6 +2,7 @@ import { Component, isDevMode, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../_services/account.service';
+import { PresenceService } from '../_services/presence.service';
 
 @Component({
   selector: 'app-nav',
@@ -13,7 +14,7 @@ export class NavComponent implements OnInit {
   isDevMode = isDevMode();
   homelink:string="";
   constructor(public accountService: AccountService, private router: Router, 
-    private toastr:ToastrService) {}
+    private toastr:ToastrService,public presence:PresenceService) {}
   ngOnInit(): void {}
   login(){
     this.accountService.login(this.model).subscribe(response=>{

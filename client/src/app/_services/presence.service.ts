@@ -17,6 +17,7 @@ export class PresenceService {
   private hubConnection: HubConnection={}as HubConnection;
   private onlineUsersSrouce = new BehaviorSubject<string[]>([]);
   onlineUsers$ = this.onlineUsersSrouce.asObservable();
+  unreadCount:number=0;
 
   constructor(private toastr:ToastrService, private router:Router) { }
 
@@ -54,6 +55,7 @@ export class PresenceService {
         .onTap
         .pipe(take(1))
         .subscribe(()=>this.router.navigateByUrl('/members/'+username+'?tab=3'));
+      this.unreadCount++;
     })
 
     this.hubConnection.on('UnreadMessages',(messages:Message[])=>{
@@ -61,6 +63,7 @@ export class PresenceService {
         .onTap
         .pipe(take(1))
         .subscribe(()=>this.router.navigateByUrl('/messages'));
+      this.unreadCount = messages.length;
     })
     // this.router.navigateByUrl('/members');
   }

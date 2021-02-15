@@ -10,7 +10,10 @@
               <a class="nav-link" routerLink='/lists' routerLinkActive='active'>Lists</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink='/messages' routerLinkActive='active'>Messages</a>
+              <a *ngIf="presence.unreadCount===0" class="nav-link" routerLink='/messages' 
+                routerLinkActive='active'>Messages</a>
+              <a *ngIf="presence.unreadCount!==0" class="nav-link" routerLink='/messages' 
+                routerLinkActive='active'>({{presence.unreadCount}})Messages</a>
             </li>
             <li *appHasRole='["Admin","Moderator"]' class="nav-item">
               <a class="nav-link" routerLink='/admin' routerLinkActive='active'>Admin</a>
