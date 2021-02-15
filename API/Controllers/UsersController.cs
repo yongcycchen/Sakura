@@ -38,10 +38,27 @@ namespace API.Controllers
             if (string.IsNullOrEmpty(userParams.Gender))
                 userParams.Gender = user.Gender == "male" ? "female" : "male";
             var users = await _unitOfWork.UserRepository.GetMemberDtosAsync(userParams);
-
+            var likesParams = new LikesParams
+            {
+                Predicate = "liked",
+                PageNumber = userParams.PageNumber,
+                PageSize = userParams.PageSize,
+                UserId = User.GetUserId(),
+            };
+            var likeds = await _unitOfWork.LikesRepository.GetUserLikes(likesParams);
+            likesParams.Predicate = "likedBy";
+            var likedbys = await _unitOfWork.LikesRepository.GetUserLikes(likesParams);
+            foreach(var u in users)
+            {
+                foreach(var l in likeds)
+                    if (u.Id==l.Id)
+                        u.LikedUser=true;
+                foreach(var l in likedbys)
+                    if (u.Id==l.Id)
+                        u.LikedByUser=true;
+            }
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize,
                     users.TotalCount, users.TotalPages);
-
             return Ok(users);
         }
 
@@ -52,6 +69,12 @@ namespace API.Controllers
             // var userToReturn = _mapper.Map<MemberDto>(user);
             // return Ok(userToReturn);
             var user = await _unitOfWork.UserRepository.GetMemberDtoAsync(username);
+            var liked = await _unitOfWork.LikesRepository.GetUserLike(User.GetUserId(),user.Id);
+            if (liked!=null)
+                user.LikedUser = true;
+            var likedby = await _unitOfWork.LikesRepository.GetUserLike(user.Id,User.GetUserId());
+            if (likedby!=null)
+                user.LikedByUser = true;
             return Ok(user);
         }
         [HttpPut]

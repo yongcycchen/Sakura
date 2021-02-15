@@ -2,12 +2,14 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
+import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { Member } from 'src/app/_models/member';
 import { Message } from 'src/app/_models/message';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
-import { MembersService } from 'src/app/_services/members.service';
+import { ConfirmService } from 'src/app/_services/confirm.service';
+import { LikeService } from 'src/app/_services/like.service';
 import { MessageService } from 'src/app/_services/message.service';
 import { PresenceService } from 'src/app/_services/presence.service';
 
@@ -27,7 +29,8 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 
   constructor(public presence:PresenceService,private route: ActivatedRoute,
       private messageService:MessageService,private accountService:AccountService,
-      private router:Router) {
+      private router:Router,private confirmService:ConfirmService,private likeService:LikeService,
+      private toastr:ToastrService) {
         this.accountService.currentUser$.pipe(take(1)).subscribe(user=> this.user = user);
         this.router.routeReuseStrategy.shouldReuseRoute = () =>false;
    }
@@ -53,6 +56,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       }
     ]
     this.galleryImages = this.getImages();
+    debugger;
   }
 
   getImages(): NgxGalleryImage[]{
@@ -82,6 +86,29 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 
   selectTab(tabId:number){
     this.memberTabs.tabs[tabId].active = true;
+  }
+
+
+  addLike(member:Member){
+    this.confirmService.confirm("Confirmation","Like "+member.username+"?").then(result=>{
+      if (result){
+        this.likeService.addLike(member.username).subscribe(()=>{
+          this.toastr.success('You have liked '+ member.knownAs);
+          this.member.likedUser = true;
+        })
+      }
+    })
+  }
+
+  deleteLike(member:Member){
+    this.confirmService.confirm("Confirmation","Unlike "+member.username+"?").then(result=>{
+      if (result){
+        this.likeService.deleteLike(member.username).subscribe(()=>{
+          this.toastr.success('You have unliked '+ member.knownAs);
+          this.member.likedUser = false;
+        });
+      }
+    })
   }
 
   onTabActivated(data:TabDirective){

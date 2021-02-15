@@ -21,8 +21,10 @@
     <table class="table table-hover" style="cursor: pointer">
         <tr>
             <th style="width: 40%">Message</th>
-            <th style="width: 20%">From / To</th>
-            <th style="width: 20%">Sent / Received</th>
+            <th style="width: 20%" *ngIf="container==='Inbox' || container==='Unread'">From</th>
+            <th style="width: 20%" *ngIf="container==='Outbox'">To</th>
+            <th style="width: 20%" *ngIf="container==='Inbox' || container==='Unread'">Received</th>
+            <th style="width: 20%" *ngIf="container==='Outbox'">Sent</th>
             <th style="width: 20%"></th>
         </tr>
         <tr [hidden]="loading" *ngFor="let message of messages" 

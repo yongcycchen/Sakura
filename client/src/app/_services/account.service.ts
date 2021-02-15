@@ -49,9 +49,6 @@ export class AccountService {
     this.currentUserSource.next(user);
   }
 
-  isguest(){
-  }
-
   logout(){
     localStorage.removeItem('user');
     this.currentUserSource.next(undefined);

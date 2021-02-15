@@ -23,10 +23,19 @@
                     <strong>Member sice:</strong>
                     <p>{{member.created | date:'MM/dd/yyyy'}}</p>
                 </div>
+                <div *ngIf="member.likedUser">
+                    <strong *ngIf="member.gender==='male'">You liked him</strong>
+                    <strong *ngIf="member.gender==='female'">You liked her</strong>
+                </div>
+                <div *ngIf="member.likedByUser">
+                    <strong *ngIf="member.gender==='male'">He liked you</strong>
+                    <strong *ngIf="member.gender==='female'">She liked you</strong>
+                </div>
             </div>
             <div class="card-footer">
                 <div class="btn-group d-flex">
-                    <button class="btn btn-primary">Like</button>
+                    <button (click)="addLike(member)"  *ngIf="!member.likedUser" class="btn btn-primary">Like</button>
+                    <button (click)="deleteLike(member)" *ngIf="member.likedUser"  class="btn btn-primary">Unlike</button>
                     <button (click)="selectTab(3)"class="btn btn-success">Message</button>
                 </div>
             </div>
@@ -43,7 +52,7 @@
                 <p>{{member.interests}}</p>
             </tab>
             <tab heading='Photos'(selectTab)="onTabActivated($event)">
-                <ngx-gallery [options]="galleryOptions" [images]="galleryImages" 
+                <ngx-gallery [options]="galleryOptions" [images]="galleryImages"
                     style="display:inline-block;margin-bottom: 20px;"></ngx-gallery>
             </tab>
             <tab heading='Messages'(selectTab)="onTabActivated($event)">

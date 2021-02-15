@@ -60,8 +60,9 @@ export class PresenceService {
       this.toastr.info('You got '+messages.length+' unread messages')
         .onTap
         .pipe(take(1))
-        .subscribe(()=>this.router.navigateByUrl('/messages'))
+        .subscribe(()=>this.router.navigateByUrl('/messages'));
     })
+    // this.router.navigateByUrl('/members');
   }
 
   stopHubConnection() {

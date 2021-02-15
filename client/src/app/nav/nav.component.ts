@@ -11,19 +11,21 @@ import { AccountService } from '../_services/account.service';
 export class NavComponent implements OnInit {
   model: any = {};
   isDevMode = isDevMode();
-
+  homelink:string="";
   constructor(public accountService: AccountService, private router: Router, 
     private toastr:ToastrService) {}
   ngOnInit(): void {}
   login(){
     this.accountService.login(this.model).subscribe(response=>{
       //console.log(response);
+      // this.router.resetConfig();
       this.router.navigateByUrl('/members');
     })
   }
   logout(){
     this.accountService.logout();
     this.router.navigateByUrl('/');
+    //this.router.resetConfig();
     // this.accountService.currentUser$.subscribe(user=>{
     //   console.log(user);
     // })
