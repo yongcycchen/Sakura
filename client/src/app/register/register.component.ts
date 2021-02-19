@@ -24,6 +24,7 @@ export class RegisterComponent implements OnInit {
       dateInputFormat:'MM/DD/YYYY'
     }
     this.maxDate = new Date();
+    this.maxDate.setUTCFullYear(this.maxDate.getUTCFullYear()-18);
   }
 
   ngOnInit(): void {
@@ -35,7 +36,7 @@ export class RegisterComponent implements OnInit {
       gender: ['male'],
       username: ['',Validators.required],
       knownAs: ['',Validators.required],
-      dateOfBirth: ['',Validators.required],
+      dateOfBirth: [''.toString(),Validators.required],
       city: ['',Validators.required],
       country: ['',Validators.required],
         password: ['',[Validators.required,
